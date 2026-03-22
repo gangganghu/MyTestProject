@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(javac src/main/java/org/example/Main.java -d out)",
+      "Bash(java -cp out org.example.Main)"
+    ]
+  }
+}
