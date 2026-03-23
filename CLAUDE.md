@@ -4,11 +4,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Build & Run
 
-Compile from the source root:
+Compile and run from the project root:
 ```bash
-cd src/main/java
-javac org/example/*.java
-java org.example.Main
+javac -d out src/main/java/org/example/*.java
+java -cp out org.example.Main
 ```
 
 ## Code Style
