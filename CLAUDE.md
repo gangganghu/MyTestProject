@@ -4,10 +4,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Build & Run
 
-Compile and run from the project root:
+This project uses Maven with Java 21.
+
 ```bash
-javac -d out src/main/java/org/example/*.java
-java -cp out org.example.Main
+mvn compile          # compile
+mvn exec:java -Dexec.mainClass="org.example.Main"  # run
+mvn package          # build JAR
 ```
 
 ## Code Style
@@ -16,4 +18,4 @@ Use comments sparingly. Only comment complex code.
 
 ## Architecture
 
-Minimal Java project with no build tool. All source files live in `src/main/java/org/example/` under the `org.example` package. `Main.java` is the entry point.
+Maven project (`org.example` package, Java 21). `Main.java` is the entry point; it delegates to static methods on other classes (e.g. `Cat`). All source files live in `src/main/java/org/example/`.
