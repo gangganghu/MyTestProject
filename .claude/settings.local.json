@@ -4,5 +4,18 @@
       "Bash(javac src/main/java/org/example/Main.java -d out)",
       "Bash(java -cp out org.example.Main)"
     ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Read|Grep",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "javac .claude/hooks/ReadHook.java && java -cp .claude/hooks ReadHook"
+          }
+        ]
+      }
+    ]
   }
 }
