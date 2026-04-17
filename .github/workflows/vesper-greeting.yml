@@ -36,6 +36,12 @@ jobs:
           
           echo "JSON body: $json_body"
 
+          curl -v https://api.anthropic.com/v1/messages \
+          -H "x-api-key: $ANTHROPIC_API_KEY" \
+          -H "content-type: application/json" \
+          -H "anthropic-version: 2023-06-01" \
+          -d "$json_body"
+  
           greeting=$(curl -s https://api.anthropic.com/v1/messages \
             -H "x-api-key: $ANTHROPIC_API_KEY" \
             -H "content-type: application/json" \
@@ -45,10 +51,6 @@ jobs:
           echo "Response: $response"
           greeting=$(echo "$response" | jq -r '.content[0].text // empty')
           echo "Greeting extracted: $greeting"
-          
-          echo "Response raw: $response"
-          echo "Response content: $(echo "$response" | jq '.content')"
-          echo "Response error: $(echo "$response" | jq '.error')"
           
           if [ -z "$greeting" ]; then
             echo "Claude returned empty. Skip."
