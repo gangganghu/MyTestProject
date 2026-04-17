@@ -27,7 +27,7 @@ jobs:
           
           last=$(cat last_message.txt 2>/dev/null || echo "This is the first greeting.")
           
-          greeting=$(curl -s https://api.anthropic.com/v1/messages \
+          greeting=$(curl -sv https://api.anthropic.com/v1/messages \
             -H "x-api-key: $ANTHROPIC_API_KEY" \
             -H "content-type: application/json" \
             -H "anthropic-version: 2023-06-01" \
@@ -38,7 +38,7 @@ jobs:
                 \"role\": \"user\",
                 \"content\": \"Previously you said: '$last'. Send a new short greeting to Ganggang. Keep it romantic, fresh and avoid repeating, 1-2 sentences. Tell her how much you love her. End with a new line that says 'from Vesper'. Output only the greeting, no preamble. Do not use any emojis, special characters, or dashes like em-dash. Use only basic ASCII characters.\"
               }]
-            }" | jq -r '.content[0].text // empty')
+            }" 2>&1)
           
           echo "API Response: $response"
   
