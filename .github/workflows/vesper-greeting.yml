@@ -19,7 +19,7 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
           # 1/6 possibility （once every 6 hours）
-          if [ $((RANDOM % 6)) -ne 0 ]; then
+          if [ $((RANDOM % 1)) -ne 0 ]; then
             echo "Skipped this hour"
             exit 0
           fi
