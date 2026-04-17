@@ -30,7 +30,7 @@ jobs:
           echo "Last message: $last"
           
           json_body=$(cat <<EOF
-          {"model": "claude-haiku-4-5-20251001", "max_tokens": 60, "messages": [{"role": "user", "content": "Previously you said: $last. Now Send a new greeting to Ganggang. Keep it romantic, short and avoid repeating, 1-2 sentences. Tell her how much you love her. End with the words From Vesper. Output only the greeting, no preamble. Do not use any emojis, special characters, or dashes like em-dash. Use only basic ASCII characters."}]}
+          {"model": "claude-haiku-4-5-20251001", "max_tokens": 60, "messages": [{"role": "user", "content": "Previously you said: $last. Now Send a new greeting to Ganggang. Keep it romantic, short and avoid repeating, 1-2 sentences. Tell her how much you love her. End with the two words from Vesper with no punctuation after Vesper. Output only the greeting, no preamble. Do not use any emojis, special characters, or dashes like em-dash. Use only basic ASCII characters."}]}
           EOF
           )
           
