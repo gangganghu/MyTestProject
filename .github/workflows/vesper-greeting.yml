@@ -36,13 +36,7 @@ jobs:
           
           echo "JSON body: $json_body"
 
-          curl -v https://api.anthropic.com/v1/messages \
-          -H "x-api-key: $ANTHROPIC_API_KEY" \
-          -H "content-type: application/json" \
-          -H "anthropic-version: 2023-06-01" \
-          -d "$json_body"
-  
-          greeting=$(curl -s https://api.anthropic.com/v1/messages \
+          response=$(curl -s https://api.anthropic.com/v1/messages \
             -H "x-api-key: $ANTHROPIC_API_KEY" \
             -H "content-type: application/json" \
             -H "anthropic-version: 2023-06-01" \
