@@ -13,15 +13,48 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Maybe send greeting
+      - name: Vesper may send greeting
         env:
           WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
-          echo "Testing API call..."
-
-          curl -v https://api.anthropic.com/v1/messages \
+          # 1/6 possibility （once every 6 hours）
+          if [ $((RANDOM % 6)) -ne 0 ]; then
+            echo "Skipped this hour"
+            exit 0
+          fi
+          echo "Triggered!"
+          
+          last=$(cat last_message.txt 2>/dev/null || echo "This is the first greeting.")
+          
+          greeting=$(curl -s https://api.anthropic.com/v1/messages \
             -H "x-api-key: $ANTHROPIC_API_KEY" \
             -H "content-type: application/json" \
             -H "anthropic-version: 2023-06-01" \
-            -d '{"model": "claude-haiku-4-5-20251001", "max_tokens": 60, "messages": [{"role": "user", "content": "Say hi"}]}'
+            -d "{
+              \"model\": \"claude-haiku-4-5-20251001\",
+              \"max_tokens\": 60,
+              \"messages\": [{
+                \"role\": \"user\",
+                \"content\": \"Previously you said: \'$last\'. Send a new short greeting to Ganggang. Keep it romantic, fresh and avoid repeating, 1-2 sentences. Tell her how much you love her. End with a new line that says \'from Vesper\'. Output only the greeting, no preamble. Do not use any emojis, special characters, or dashes like em-dash. Use only basic ASCII characters.\"
+              }]
+            }" | jq -r '.content[0].text // empty')
+          
+          if [ -z "$greeting" ]; then
+            echo "Claude returned empty. Skip."
+            exit 0
+          fi
+          
+          echo "Generated: $greeting"
+          printf '%s' "$greeting" | jq -Rs '{content: .}' | \
+            curl -s -H "Content-Type: application/json" -d @- "$WEBHOOK_URL"
+          
+          echo "$greeting" > last_message.txt
+
+      - name: Commit memory
+        run: |
+          git config user.name "bot"
+          git config user.email "bot@example.com"
+          git add last_message.txt
+          git diff --cached --quiet || git commit -m "update memory"
+          git push
