@@ -36,7 +36,7 @@ jobs:
               "max_tokens": 60,
               "messages": [{
                 "role": "user",
-                "content": "Send a greeting to Ganggang. Tell her how much you love her. End with a new line that says from Vesper. Keep it romantic and short, 1-2 sentences. Output only the greeting, no preamble. Do not use any emojis, special characters, or dashes like em-dash. Use only basic ASCII characters."
+                "content": "Previously you said: '"$last"'. Send a new short greeting to Ganggang. Keep it romantic, fresh and avoid repeating, 1-2 sentences. Tell her how much you love her. End with a new line that says from Vesper. Output only the greeting, no preamble. Do not use any emojis, special characters, or dashes like em-dash. Use only basic ASCII characters."
               }]
             }' | jq -r '.content[0].text // empty')
           
