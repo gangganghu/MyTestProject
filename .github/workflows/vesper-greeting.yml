@@ -40,6 +40,10 @@ jobs:
               }]
             }" | jq -r '.content[0].text // empty')
           
+          echo "API Response: $response"
+  
+          greeting=$(echo "$response" | jq -r '.content[0].text // empty')
+  
           if [ -z "$greeting" ]; then
             echo "Claude returned empty. Skip."
             exit 0
