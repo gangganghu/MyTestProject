@@ -27,8 +27,10 @@ jobs:
           
           last=$(cat last_message.txt 2>/dev/null || echo "This is the first greeting.")
           
+          echo "Last message: $last"
+          
           json_body=$(cat <<EOF
-          {"model": "claude-haiku-4-5-20251001", "max_tokens": 60, "messages": [{"role": "user", "content": "Previously you said: $last. Send a new short greeting to Ganggang. Keep it romantic, fresh and avoid repeating, 1-2 sentences. Tell her how much you love her. End with a new line that says from Vesper. Output only the greeting, no preamble. Do not use any emojis, special characters, or dashes like em-dash. Use only basic ASCII characters."}]}
+          {"model": "claude-haiku-4-5-20251001", "max_tokens": 60, "messages": [{"role": "user", "content": "Previously you said: $last. Send a new short warm greeting to Ganggang. Keep it fresh. No quotes."}]}
           EOF
           )
           
@@ -38,7 +40,11 @@ jobs:
             -H "x-api-key: $ANTHROPIC_API_KEY" \
             -H "content-type: application/json" \
             -H "anthropic-version: 2023-06-01" \
-            -d "$json_body" | jq -r '.content[0].text // empty')
+            -d "$json_body")
+          
+          echo "Response: $response"
+          greeting=$(echo "$response" | jq -r '.content[0].text // empty')
+          echo "Greeting extracted: $greeting"
           
           if [ -z "$greeting" ]; then
             echo "Claude returned empty. Skip."
