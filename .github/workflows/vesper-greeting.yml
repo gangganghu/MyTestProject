@@ -32,6 +32,8 @@ jobs:
           EOF
           )
           
+          echo "JSON body: $json_body"
+
           greeting=$(curl -s https://api.anthropic.com/v1/messages \
             -H "x-api-key: $ANTHROPIC_API_KEY" \
             -H "content-type: application/json" \
