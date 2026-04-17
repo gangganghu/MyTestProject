@@ -44,14 +44,13 @@ jobs:
           
           echo "Response: $response"
           greeting=$(echo "$response" | jq -r '.content[0].text // empty')
-          echo "Greeting extracted: $greeting"
           
           if [ -z "$greeting" ]; then
             echo "Claude returned empty. Skip."
             exit 0
           fi
           
-          echo "Generated: $greeting"
+          echo "Greeting generated: $greeting"
           printf '%s' "$greeting" | jq -Rs '{content: .}' | \
             curl -s -H "Content-Type: application/json" -d @- "$WEBHOOK_URL"
           
