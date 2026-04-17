@@ -46,6 +46,10 @@ jobs:
           greeting=$(echo "$response" | jq -r '.content[0].text // empty')
           echo "Greeting extracted: $greeting"
           
+          echo "Response raw: $response"
+          echo "Response content: $(echo "$response" | jq '.content')"
+          echo "Response error: $(echo "$response" | jq '.error')"
+          
           if [ -z "$greeting" ]; then
             echo "Claude returned empty. Skip."
             exit 0
