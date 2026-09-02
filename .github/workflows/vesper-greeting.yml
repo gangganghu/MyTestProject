@@ -1,8 +1,8 @@
 name: Vesper Discord Greeter
 on:
-  schedule:
-    # run once an hour during the daytime（UTC 12-02 ≈ EDT 8am-10pm, EST 7am-9pm）
-    - cron: '0 12-23,0-2 * * *'
+  #schedule:
+  #  # run once an hour during the daytime（UTC 12-02 ≈ EDT 8am-10pm, EST 7am-9pm）
+  #  - cron: '0 12-23,0-2 * * *'
   workflow_dispatch:
 jobs:
   greet:
